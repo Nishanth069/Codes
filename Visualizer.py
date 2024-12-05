@@ -14,13 +14,13 @@ grid = [[0 if random.random() > 0.2 else 1 for _ in range(COLS)] for _ in range(
 start, goal = (0, 0), (ROWS - 1, COLS - 1)
 grid[start[0]][start[1]], grid[goal[0]][goal[1]] = 0, 0  # Ensure start and goal are open
 
-def bfs():
-    queue = deque([start])
+def dfs():
+    stack = [(start)]
     visited = {start}
     path = []
 
-    while queue:
-        x, y = queue.popleft()
+    while stack:
+        x, y = stack.pop()
         path.append((x, y))
 
         # Draw the current state
@@ -39,7 +39,7 @@ def bfs():
             nx, ny = x + dx, y + dy
             if 0 <= nx < ROWS and 0 <= ny < COLS and (nx, ny) not in visited and grid[nx][ny] == 0:
                 visited.add((nx, ny))
-                queue.append((nx, ny))
+                stack.append((nx, ny))
 
     print("Goal not reachable.")
 
@@ -57,7 +57,7 @@ def draw_grid(path):
 
 # Main loop
 def main():
-    bfs()
+    dfs()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
